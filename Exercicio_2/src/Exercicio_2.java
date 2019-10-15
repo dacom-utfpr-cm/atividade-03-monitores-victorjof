@@ -10,23 +10,27 @@ public class Exercicio_2
     public static void main(String[] args) {
         monitorCounter mc = new monitorCounter();
 
-        //sleep.
+        //sleep. Use of thread for non blocking flow.
         new Thread(() ->{take_nap(mc,5); }).start();
+        new Thread(() ->{take_nap(mc,2); }).start();
+
 
         //Incrementing counter to wake up
-        new Thread(() ->{control_sleep(mc);}).start();
-        new Thread(() ->{control_sleep(mc);}).start();
+        new Thread(() ->{doCount(mc);}).start();
+        new Thread(() ->{doCount(mc);}).start();
+
 
     }
-
-    public static void control_sleep(monitorCounter mc){
+    //wraper/logger for incremet()
+    public static void doCount(monitorCounter mc){
         int unit;
         while(!mc.is_wakeup_time()){
+
             mc.increment();
             try{
                 //random unit of time ([0,3] second)
                 unit = (int)(Math.random()*3000);
-                System.out.printf("(warning) I may wait  %.2f seconds. %n",(float)unit/1000);
+                System.out.println("Count+1");
                 Thread.sleep(unit);
             }catch (InterruptedException e){
                 e.printStackTrace();
@@ -35,10 +39,11 @@ public class Exercicio_2
         }
     }
 
+    //wraper/logger for sleepUntil()
     public static void take_nap(monitorCounter mc,int units){
-        System.out.printf("Sleeping up to %d warnings%n%n",units);
-        mc.sleep_until(5);
-        System.out.printf("%n%n%d warnings. Time to wake up. %n",units);
+        System.out.printf("Sleeping up to %d%n",units);
+        mc.sleep_until(units);
+        System.out.printf("Counter reached %d. Time to wake up. %n",units);
 
     }
 

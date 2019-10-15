@@ -20,7 +20,7 @@ public class BoundedCounter {
             }catch (InterruptedException e){e.printStackTrace();};
         }
         //Since increment/decrement happens one unit at time, it is guaranteed that counter have returned to the boundaries.
-        notify();
+        notifyAll();
     }
 
     synchronized public void decrement(){
@@ -34,7 +34,7 @@ public class BoundedCounter {
         }
 
         //Since increment/decrement happens one unit at time, it is guaranteed that counter have returned to the boundaries.
-        notify();
+        notifyAll();
 
 
     }
